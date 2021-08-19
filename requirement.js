@@ -1,90 +1,77 @@
 /*
-
-requirements
-
-1)book
-
--ISBN -book's unique id   -string
--title                    -string
--author                   -[number] (authors id)
--language                 -string 
--publications             -number
--no of pages              -number
--categories               -[string]
-
-2)author
--id                       -number 
--name                     -string
--books                    -[string]
-
-3)publications
-
--id                       -number 
--name                     -string
--books                    -[string]
-
--------API s--------
--GET
-    -to get all books ✔
-    -to get specific books
-    -to get specific books based on catagory
-    -to get specific books based on author
-
--POST
-    -to update book details
-
-
--PUT
-    -to update book details
-    -to update/add new authors
-
--DELETE
-    
-    *mangoDB alllows to delete only one book at a time due to security purpose*
-    
-    -delete a book
-    -delete a author from a book
-
-    
+Requirements
+Book
+    - ISBN             - String
+    - Title            - String
+    - Author           - [Number]
+    - Language         - String
+    - Publications     - Number
+    - NumOfPages       - Number
+    - Categories       - [String]
+Author
+    - id               - Number
+    - name             - String
+    - books            - [Sting]
+Publications
+    - id               - Number
+    - name             - String
+    - books            - [Sting]
+---- APIs ------
+Book
+    - GET
+    - to get all books ✅
+    - to get specific books ✅
+    - to get a list of books based on category ✅
+    - to get a list of books based on author -> [Task] 🔥
+    - POST
+    - to add new book
+    - PUT
+    - to update book details
+    - to update/add new author
+    - DELETE
+    - delete a book
+    - delete an author from the book
 Authors
+    - GET
+    - to get all authors ✅
+    - to get specific author -> [Task] 🔥
+    - to get list of author based on a book
+    - POST
+    - to add new author
+    - to update/add new book
+    - PUT
+    - update author details
+    - DELETE
+    - delete an author
+Publication
+    - GET
+    - to get all publication -> [Task] 🔥
+    - to get specific publication -> [Task] 🔥
+    - to get a list of publication based on a book. -> [Task] 🔥
+    - POST
+    - Add new publication✅
+    - PUT
+    - update publication 
+    - to update/add new book
+    - DELETE
+    - delete a book from publication
+    - delete a publication
+*/
 
--GET
-    -to get all authors
-    -to get specific authoe
-    -to get list of  authors based on books
-
--POST
-
-    -add new author
-    
-
--PUT
-    -to update book details
-    -to add/update new author
-
--DELETE
-
-    -delete a book
-    -delete a author from a book
-
-
-publications
-
--GET
-    -to get all publications
-    -to get specific publications
-    -to get list of  publications based on books
-
--POST
-    -add new publications
-
-
--PUT
-    -to update publications
-    -to add/update new publications
-
-
--DELETE
-    -delete a book from publications
-    -delete a publications
+/*
+Routes Needed in producation
+/author/                                 getting all authors
+/author/:isbn                            get a list of authors based on a book's ISBN
+/author/new                              add new author
+/book/                                   get all books
+/book/is/:isbn                           get specific book based on ISBN
+/book/c/:category                        get specific books based on a category
+/book/new                                add new books
+/book/update/:isbn                       update title of a book
+/book/author/update/:isbn                update/add new author
+/book/delete/:isbn                       delete a book
+/book/delete/author/:isbn/:authorId      delete a author from a book
+/publications                            get all publications
+/publication/update/book/:isbn           update/add new book to a publication
+/publication/delete/book/:isbn/:pubId    delete a book from publication
 */

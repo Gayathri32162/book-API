@@ -1,5 +1,8 @@
 // Temporary Database
 
+
+//these are array of objects
+
 let Book = [
     {
       ISBN: "12345ONE",
