@@ -25,7 +25,7 @@ requirements
 
 -------API s--------
 -GET
-    -to get all books
+    -to get all books ✔
     -to get specific books
     -to get specific books based on catagory
     -to get specific books based on author
