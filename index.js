@@ -35,7 +35,7 @@ ourApp.get("/book/:bookID", (req,res) => {
     const getbook = Database.Book.filter(
         (book) =>book.ISBN === req.params.bookID
     );
-    return res.json({book:getbook});
+    return res.json({book:getbook});//spreading operator which get only the data inside the obj and updating it 
 });
 
 
@@ -89,8 +89,12 @@ ourApp.get("/author", (req,res) => {
 //body -none
 
 ourApp.post("/book/new",(req,res) => {
-    console.log(req.body);
-    return res.json({message:'Book added successfuly'}); //to stop the looping
+    const {newbook} = req.body;
+    
+    //add new data
+
+    return res.json(Database.Book);
+
 });
 
 
@@ -103,8 +107,9 @@ ourApp.post("/book/new",(req,res) => {
 
 ourApp.post("/author/new",(req,res) => {
     const {newauthor} = req.body;  //destructuring
-    console.log(newauthor);
-    return res.json({message:"author was added"});
+
+    Database.Author.push(newauthor);
+    return res.json(Database.Author);
 
 });
 
@@ -116,11 +121,37 @@ ourApp.post("/author/new",(req,res) => {
 //body -none
 
 ourApp.post("/publication/new",(req,res) => {
-    const publication = req.body;
-    console.log(publication);
-    return res.json({message:'publication added successfuly'}); //to stop the looping
+    const {newpublication} = req.body;//here we are creating an new object to be updated in database
+    
+    console.log(newpublication);
+
+    return res.json({message:"publication added"});
 });
 
+
+//route  -/book/update
+//desc   -to update any details
+//access  -public access
+//parameter  -ISBN(to find the book to be updated)
+//method   -PUT
+
+
+ourApp.put("/book/update/:isbn", (req,res) => {
+    const {updatedbook} = req.body;
+
+    const {isbn} = req.params;
+    // console.log(updatedbook, isbn);//checking if the datas updated or not
+
+    const book = Database.Book.map((book) => {
+        if(book.ISBN === isbn){
+            console.log(book);
+            return {...book, ...updatedbook}//spread operator
+        }
+        return book;
+    });
+    return res.json(Database.book);
+
+});
 
 
 
