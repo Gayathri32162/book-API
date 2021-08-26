@@ -142,17 +142,76 @@ ourApp.put("/book/update/:isbn", (req,res) => {
     const {isbn} = req.params;
     // console.log(updatedbook, isbn);//checking if the datas updated or not
 
-    const book = Database.Book.map((book) => {
+    const book = Database.Book.map((book) => { //map creates a new array in database which contains the new updates
         if(book.ISBN === isbn){
             console.log(book);
             return {...book, ...updatedbook}//spread operator
         }
         return book;
     });
-    return res.json(Database.book);
+    return res.json(book);
 
 });
 
+//route  -/bookAuthor/update/
+//desc   -to update authors details
+//access  -public access
+//parameter  -ISBN(to find the book to be updated)
+//method   -PUT
 
+ourApp.put("/bookAuthor/update:isbn",(req,res) => {
+    const {newauthor} = req.body;
+    const {isbn} = req.params;
+
+    Database.Book.forEach((book) => {
+        if (book.ISBN === isbn){
+            if(!book.authors.includes(newauthor)){//checking the new auhor already exist or not
+                return book.authors.push(newauthor)//adding the author
+            }
+            return book;
+        }
+        return book;
+    })
+    //updating the authors database objects
+    Database.Author.forEach((author) =>{
+        //check if the author id match
+        if (author.id === newauthor){
+            //check if the author already exists
+            if(!author.books.includes(isbn)){
+                //if not then push the new book
+                return author.books.push(isbn);
+
+            }
+            //else return
+            return author;
+        }
+        return author;//default return wthout any changes
+    })
+
+    return res.json({ book: Database.Book, author: Database.Author });
+
+
+});
+
+//TODO TASK
+//route  -/author/update
+//description  -update any details of author
+//params   -id
+//method   -PUT
+
+ourApp.put("/author/update/:id",(req,res) => {
+    const {updateauthor} = req.body;
+    const {id} = req.params;
+
+    const author = Database.Author.map((author) => {
+        if(author.id === parseInt(id)){
+            return { ...author, ...updateauthor};
+        }
+        return author;
+
+    });
+
+    return res.json(author);
+})
 
 ourApp.listen(4000, () => console.log("server is running"));
