@@ -190,7 +190,7 @@ ourApp.put("/bookAuthor/update:isbn",(req,res) => {
 
     Database.Book.forEach((book) => {
         if (book.ISBN === isbn){
-            if(!book.authors.includes(newauthor)){//checking the new auhor already exist or not
+            if(!book.authors.includes(newauthor)){//checking the new author already exist or not
                 return book.authors.push(newauthor)//adding the author
             }
             return book;
@@ -240,5 +240,63 @@ ourApp.put("/author/update/:id",(req,res) => {
 
     return res.json(author);
 })
+
+
+
+
+
+
+// route    -/book/delete:isbn
+// desc     -to delete a book
+// access   -public
+// params   -ISBN
+// method   -delete
+
+ourApp.delete("/book/delete:isbn",(req,res) => {
+    //identifying the book to be deleted using isbn num
+    const {isbn} = req.params;
+
+    //filtering data to delete
+    const filterBooks = Database.Book.filter((book) => Database.Book.ISBN !== isbn);
+    
+
+    //id isbn doesnt match then simply return the filterBooks in the database
+    Database.Book = filterBooks;
+
+    return res.json(Database.Book);
+});
+
+
+
+
+/*Route    -/book/delete/author
+desc       -to delete an author from the book
+params     -public 
+access     -id,isbn
+method     -DELETE
+*/
+
+
+ourApp.delete("/book/delete/author/:isbn/:id", (req,res) => {
+    const {isbn,id} = req.body;
+
+
+    //updating book database object
+    Database.Book.forEach((book) => {
+        if(book.ISBN === isbn){
+            if(!book.authors.includes(parseInt(id))){
+                return book;
+            }
+
+            book.authors = book.authors.filter((id) => id !== parseInt(id));
+
+            return book;
+        }
+
+        return book;
+    });
+
+    
+});
 
 ourApp.listen(4000, () => console.log("server is running"));
