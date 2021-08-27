@@ -129,6 +129,31 @@ ourApp.post("/publication/new",(req,res) => {
 });
 
 
+
+//route  -/book/updateTitle
+//desc   -to update the title of the book
+//access  -public access
+//parameter  -ISBN(to find the book to be updated)
+//method   -PUT
+
+ourApp.put("/book/updateTitle/:isbn", (req,res) => {
+    const {updatedbook} = req.body;
+    const {isbn} = req.params;
+
+    Database.Book.forEach((book) => {
+        if(book.ISBN === isbn){
+            book.title = updatedbook.title;
+            return book;
+        }
+        return book;
+    });
+    return res.json(Database.Book);
+});
+
+
+
+
+
 //route  -/book/update
 //desc   -to update any details
 //access  -public access
@@ -136,22 +161,22 @@ ourApp.post("/publication/new",(req,res) => {
 //method   -PUT
 
 
-ourApp.put("/book/update/:isbn", (req,res) => {
-    const {updatedbook} = req.body;
+// ourApp.put("/book/update/:isbn", (req,res) => {
+//     const {updatedbook} = req.body;
 
-    const {isbn} = req.params;
-    // console.log(updatedbook, isbn);//checking if the datas updated or not
+//     const {isbn} = req.params;
+//     // console.log(updatedbook, isbn);//checking if the datas updated or not
 
-    const book = Database.Book.map((book) => { //map creates a new array in database which contains the new updates
-        if(book.ISBN === isbn){
-            console.log(book);
-            return {...book, ...updatedbook}//spread operator
-        }
-        return book;
-    });
-    return res.json(book);
+//     const book = Database.Book.map((book) => { //map creates a new array in database which contains the new updates
+//         if(book.ISBN === isbn){
+//             console.log(book);
+//             return {...book, ...updatedbook}//spread operator
+//         }
+//         return book;
+//     });
+//     return res.json(book);
 
-});
+// });
 
 //route  -/bookAuthor/update/
 //desc   -to update authors details
@@ -179,7 +204,9 @@ ourApp.put("/bookAuthor/update:isbn",(req,res) => {
             //check if the author already exists
             if(!author.books.includes(isbn)){
                 //if not then push the new book
-                return author.books.push(isbn);
+                author.books.push(isbn);
+                return author;
+
 
             }
             //else return

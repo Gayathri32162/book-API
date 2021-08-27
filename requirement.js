@@ -26,7 +26,7 @@ Book
     - POST
     - to add new book
     - PUT
-    - to update book details
+    - to update book details✅
     - to update/add new author
     - DELETE
     - delete a book
