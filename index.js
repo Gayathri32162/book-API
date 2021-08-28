@@ -285,10 +285,11 @@ ourApp.delete("/book/delete/author/:isbn/:id", (req,res) => {
     Database.Book.forEach((book) => {
         if(book.ISBN === isbn){
             if(!book.authors.includes(parseInt(id))){
-                return book;
+                return ;
             }
 
-            book.authors = book.authors.filter((id) => id !== parseInt(id));
+            book.authors = book.authors.filter((databaseid) => databaseid !== parseInt(id));
+            
 
             return book;
         }
@@ -296,7 +297,17 @@ ourApp.delete("/book/delete/author/:isbn/:id", (req,res) => {
         return book;
     });
 
-    
+    Database.Author.forEach((author) => {
+        if(author.id === parseInt(id)){
+            if(!author.books.includes(isbn)){
+                return ;
+            }
+            author.books = author.books.filter((book) => book != isbn);
+            return author;
+        }
+        return author;
+    })
+    return res.json({book: Database.Book, author: Database.Author});
 });
 
 ourApp.listen(4000, () => console.log("server is running"));
