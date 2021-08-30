@@ -29,8 +29,8 @@ Book
     - to update book details✅
     - to update/add new author
     - DELETE
-    - delete a book
-    - delete an author from the book
+    - delete a book ✅
+    - delete an author from the book ✅
 Authors
     - GET
     - to get all authors ✅
@@ -42,7 +42,7 @@ Authors
     - PUT
     - update author details
     - DELETE
-    - delete an author
+    - delete an author ✅
 Publication
     - GET
     - to get all publication -> [Task] 🔥
@@ -54,8 +54,8 @@ Publication
     - update publication 
     - to update/add new book
     - DELETE
-    - delete a book from publication
-    - delete a publication
+    - delete a book from publication✅
+    - delete a publication✅
 */
 
 /*

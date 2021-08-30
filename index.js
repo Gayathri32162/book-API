@@ -278,7 +278,7 @@ method     -DELETE
 
 
 ourApp.delete("/book/delete/author/:isbn/:id", (req,res) => {
-    const {isbn,id} = req.body;
+    const {isbn,id} = req.params;
 
 
     //updating book database object
@@ -309,5 +309,87 @@ ourApp.delete("/book/delete/author/:isbn/:id", (req,res) => {
     })
     return res.json({book: Database.Book, author: Database.Author});
 });
+
+
+/*
+route   -/author/delete
+desc    -to delete an author
+access  -public
+params  -id
+method   DELETE
+*/ 
+
+
+ourApp.delete("/author/delete:id", (req,res) => {
+    const { id } = req.params;
+
+
+    const filterAuthors = Database.Author.filter((author) => author.id !== parseInt(id));
+
+
+    //overwritting the existing author 
+    Database.Author = filterAuthors;
+
+    return res.json(Database.Author);
+});
+
+
+
+/*
+route   -/publication/delete
+desc    -to delete an publication
+access  -public
+params  -id
+method   DELETE
+*/ 
+
+
+ourApp.delete("/publication/delete:id",(req,res) => {
+    const {id} = req.params;
+
+    const filterpublication = Database.Publication.filter((Pub) => Pub.id !== parseInt(id));
+
+    //overwritting the existing publications
+    Database.Publication = filterpublication;
+
+    return res.json(Database.Publication);
+});
+
+
+/*
+route   -/publication/delete/book
+desc    -to delete an publication
+access  -public
+params  -id,isbn
+method   DELETE
+*/ 
+
+ourApp.delete("/publication/delete/book:isbn:id" , (req,res) => {
+    const {isbn} = req.params;
+    const {id} = req.params;
+
+
+    Database.Book.forEach((book) => {
+        if(book.ISBN === isbn){
+            book.publication = 0;
+            return book;
+        }
+        return book;
+    });
+
+    Database.Publication.forEach((publication) => {
+        if(publication.id === parseInt(id)){
+            const filteredbooks = publication.books.filter((book) => book !== isbn);
+            publication.books = filteredbooks;
+            return publication;
+        
+        }
+        return publication;
+    });
+    return res.json({book:Database.Book, publication:Database.publication});
+});
+
+
+
 
 ourApp.listen(4000, () => console.log("server is running"));

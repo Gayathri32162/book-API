@@ -3,6 +3,15 @@
 
 //these are array of objects
 
+//properties of mangoDB
+//Documents have no structure rectrictions
+//documents acts similar to objects in JSON format
+//documents have key value pair
+//No specific schema required before hand line SQL database
+//
+
+
+
 let Book = [
     {
       ISBN: "12345ONE",
