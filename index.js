@@ -1,7 +1,29 @@
+require("dotenv").config();
 const express = require("express");  //installing express
+const mangoose = require("mongoose"); //importing mangoose - it is a drive which is used to connect to mangodb
+
 
 //database  
 const Database = require("./database");
+
+
+
+
+//this mangoose.connnect is already a promises
+mangoose.connect(process.env.MONGO_URI
+// {
+//     useNewUrlParser: true,
+//     useUnifiedTopology:true,          //these are copied from mangoose doc 
+//     useFindAndModify:false,
+//     useCreateIndex:true,
+
+//}
+//this then() is to check if everything is running perfectly or not if it runs good then it will execute the unname function
+
+).then(() => console.log("connection established!")).catch((error) => {
+    console.log("error")
+}); //catch() will catch and throw error in he code block 
+
 
 const ourApp = express();//initializing ourApp with express features
 

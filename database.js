@@ -8,7 +8,8 @@
 //documents acts similar to objects in JSON format
 //documents have key value pair
 //No specific schema required before hand line SQL database
-//
+//structuring the data is easier
+//mangoDB environment is very scalable(we can use it free till some limits)
 
 
 
