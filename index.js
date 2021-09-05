@@ -1,6 +1,13 @@
 require("dotenv").config();
 const express = require("express");  //installing express
-const mangoose = require("mongoose"); //importing mangoose - it is a drive which is used to connect to mangodb
+const mongoose = require("mongoose"); //importing mongoose - it is a drive which is used to connect to mangodb
+
+
+//importing schemas
+const Book = require("./schema/book");
+const Authour = require("./schema/author");
+const publication = require("./schema/publication");
+
 
 
 //database  
@@ -9,22 +16,18 @@ const Database = require("./database");
 
 
 
-//this mangoose.connnect is already a promises
-mangoose.connect(process.env.MONGO_URI
-// {
-//     useNewUrlParser: true,
-//     useUnifiedTopology:true,          //these are copied from mangoose doc 
-//     useFindAndModify:false,
-//     useCreateIndex:true,
 
-//}
-//this then() is to check if everything is running perfectly or not if it runs good then it will execute the unname function
+//this mongoose.connnect is already a promises
+mongoose.connect(process.env.MONGO_URl
+/*{
+    useNewUrlParser: true,
+    useUnifiedTopology:true,          //these are copied from mongoose doc 
+    useFindAndModify:false,
+    useCreateIndex:true,
 
-).then(() => console.log("connection established!")).catch((error) => {
-    console.log("error")
-}); //catch() will catch and throw error in he code block 
-
-
+}*/
+).then(() => console.log("connection established!"));
+    
 const ourApp = express();//initializing ourApp with express features
 
 ourApp.use(express.json());//coz we are sending the req in the json format
@@ -42,8 +45,10 @@ ourApp.get("/", (request,response) => {    //route
 //params -none
 //body -none
 
-ourApp.get("/book", (req,res) => {
-    return res.json({ books: Database.Book});
+ourApp.get("/book", async(req,res) => {
+
+    const getAllBooks = await Book.find();  //find func take time so we use promises
+    return res.json(getAllBooks);
 });
 
 //route  -/book/:bookID
@@ -53,11 +58,14 @@ ourApp.get("/book", (req,res) => {
 //params -bookID
 //body -none
 
-ourApp.get("/book/:bookID", (req,res) => {
-    const getbook = Database.Book.filter(
-        (book) =>book.ISBN === req.params.bookID
-    );
-    return res.json({book:getbook});//spreading operator which get only the data inside the obj and updating it 
+ourApp.get("/book/:bookID", async(req,res) => {
+    const getSpecificBook = await Book.findOne({ISBN:req.params.bookID});  //to find specific book we use findone
+    if(!getSpecificBook){
+        return res.json({
+            error:`No book found for the ISBN of ${req.params.bookID}` //templateliteral
+        });
+    }
+    return res.json({book: getSpecificBook});
 });
 
 
@@ -110,13 +118,18 @@ ourApp.get("/author", (req,res) => {
 //params -none
 //body -none
 
-ourApp.post("/book/new",(req,res) => {
-    const {newbook} = req.body;
-    
-    //add new data
+ourApp.post("/book/new",async(req,res) => {
+    try{
+        const {newbook} = req.body;
+        await Book.create(newbook);
+        return res.json({message:"book added to data base"});
+        
 
-    return res.json(Database.Book);
 
+    }catch(errro){
+        return res.json({error: error.message});s
+
+    }
 });
 
 
