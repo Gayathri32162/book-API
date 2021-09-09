@@ -7,6 +7,7 @@ const publicationSchema = mongoose.Schema({
     id:Number,
     name:String,
     books:[String],
+    
 
 })
 
