@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 //create author schema
-const AuthourSchema = mongoose.Schema({
-    id:Number,
-    name:String,
-    books:[String],
-})
+ const AuthorSchema = mongoose.Schema(
+   {
+     id: Number,
+     name: String,
+     books: [String]
+   }
+ );
 
-//author model
+ const AuthorModel = mongoose.model("authors",AuthorSchema);
 
-const AuthourModel = mongoose.model("Author",AuthourSchema); //connecting book schema to mongobd collections
-
-module.exports = AuthourModel;
+ module.exports = AuthorModel;
