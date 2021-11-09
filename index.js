@@ -5,12 +5,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 //Database
-const database = require("./database/database");
+const database = require("./database");
 
 //Models
-const BookModel = require("./database/book");
-const AuthorModel = require("./database/author");
-const PublicationModel = require("./database/publication");
+const BookModel = require("./schema/book");
+const AuthorModel = require("./schema/author");
+const PublicationModel = require("./schema/publication");
 
 //Initialise express
 const booky = express();
@@ -18,12 +18,13 @@ const booky = express();
 booky.use(bodyParser.urlencoded({extended: true}));
 booky.use(bodyParser.json());
 
+
 mongoose.connect(process.env.MONGO_URL,
 {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
+  //useFindAndModify: false,
+  //useCreateIndex: true
 }
 ).then(() => console.log("Connection Established"));
 

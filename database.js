@@ -64,3 +64,30 @@ let Book = [
   ];
   
   module.exports = { Book, Author, Publication };
+
+
+
+
+
+
+
+
+  /*
+  {
+    "ISBN":"secret book",
+    "title":"suspense",
+    "pubDate":"2021-09-11",
+    "numPage":"en",
+    "author":[
+        
+        ],
+    "publications":[
+            ],
+    "category":[
+        "suspense",
+        "space",
+        "education"
+                ]
+}
+
+  */
